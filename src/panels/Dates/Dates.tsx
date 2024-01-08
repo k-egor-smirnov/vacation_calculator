@@ -19,7 +19,7 @@ export const Dates = observer(() => {
 
   return (
     <>
-      <PanelHeader>Даты отпуска</PanelHeader>
+      <PanelHeader>Базовая информация</PanelHeader>
       <Group>
         <FormLayoutGroup>
           <FormItem top="Зарплата" bottom="Сумма всех выплат до вычета налогов">

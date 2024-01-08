@@ -31,7 +31,7 @@ export const BasicData = observer(() => {
 
   return (
     <>
-      <PanelHeader>Базовая информация</PanelHeader>
+      <PanelHeader>Дополнительно</PanelHeader>
       <Group header={<Header>Периоды отсутствия</Header>}>
         <Div style={{ paddingTop: 0, paddingBottom: 4 }}>
           <Subhead style={{ color: "var(--vkui--color_text_secondary)" }}>
