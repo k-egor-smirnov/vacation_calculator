@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Placeholder, Tooltip } from "@vkontakte/vkui";
+import { Button, ButtonGroup, Placeholder } from "@vkontakte/vkui";
 import { Icon56CoinsStacks3Outline } from "@vkontakte/icons";
 import { formStore } from '../../FormStore';
 
@@ -20,7 +20,7 @@ export function Intro() {
             >
               Начать
             </Button>
-            <Tooltip
+            {/* <Tooltip
               text={
                 <>
                   {"Вход позволяет сохранять настройки между устройствами. Данные "}
@@ -33,7 +33,7 @@ export function Intro() {
               <Button size="m" stretched mode="outline">
                 Войти через passkey
               </Button>
-            </Tooltip>
+            </Tooltip> */}
           </ButtonGroup>
         }
       >

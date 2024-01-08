@@ -4,7 +4,6 @@ import {
   Group,
   Header,
   InfoRow,
-  Link,
   PanelHeader,
   SimpleCell,
   Text,
@@ -60,7 +59,7 @@ export const Result = observer(() => {
               maximumFractionDigits: 0,
             }).format(result.diff)}{" "}
             к вашей зарплате.{" "}
-            <Link href="#">Узнайте, как происходили вычисления. </Link>
+            {/* <Link href="#">Узнайте, как происходили вычисления. </Link> */}
           </Text>
         </Div>
       </Group>
