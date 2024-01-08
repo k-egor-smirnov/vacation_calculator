@@ -1,13 +1,18 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, reaction } from "mobx";
 import { DatesProcessor } from "./panels/Dates/DatesProcessor";
 import { IntroProcessor } from "./panels/Intro/IntroProcessor";
 import { BasicDataProcessor } from "./panels/BasicData/BasicDataProcessor";
 import { calculateVacation } from "./lib/calculator";
-import { eachDayOfInterval } from "date-fns";
+import {
+  eachDayOfInterval,
+  endOfMonth,
+  startOfMonth,
+  subMonths,
+} from "date-fns";
 
 export type Step = "intro" | "dates" | "basic" | "result";
 
-class FormStore {
+export class FormStore {
   step: Step = "intro";
   history: Step[] = [];
 
@@ -31,6 +36,37 @@ class FormStore {
     }
 
     this.history.push(this.step);
+
+    reaction(
+      () => this.processors.dates.dateRange,
+      (newTargetDateRange) => {
+        if (!newTargetDateRange?.[0]) {
+          return;
+        }
+
+        const billingPeriodStartDate = startOfMonth(
+          subMonths(newTargetDateRange[0], 12)
+        );
+
+        const billingPeriodEndDate = endOfMonth(
+          subMonths(newTargetDateRange[0], 1)
+        );
+
+        this.processors.basic.excludedRanges = this.processors.basic.excludedRanges.filter((dateRange) => {
+          // Незаполнененные данные оставляем
+          if (!dateRange || !dateRange[0] || !dateRange[1]) {
+            return true;
+          }
+
+          return (
+            dateRange[0] >= billingPeriodStartDate &&
+            dateRange[0] <= billingPeriodEndDate &&
+            dateRange[1] >= billingPeriodStartDate &&
+            dateRange[1] <= billingPeriodEndDate
+          );
+        });
+      }
+    );
   }
 
   get isNextStepAvailable() {
@@ -62,7 +98,7 @@ class FormStore {
   get result(): {
     vacationSalary: number;
     nextSalaries: Record<number, number>;
-    diff: number,
+    diff: number;
   } | null {
     const { dateRange } = this.processors.dates;
     const { baseSalary, excludedRanges } = this.processors.basic;

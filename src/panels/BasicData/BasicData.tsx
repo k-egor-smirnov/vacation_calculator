@@ -24,7 +24,6 @@ export const BasicData = observer(() => {
   const billingPeriodStartDate = startOfMonth(
     subMonths(formStore.vacationTargetStart!, 12)
   );
-  1;
 
   const billingPeriodEndDate = endOfMonth(
     subMonths(formStore.vacationTargetStart!, 1)

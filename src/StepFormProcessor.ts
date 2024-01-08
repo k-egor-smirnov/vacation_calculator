@@ -1,3 +1,4 @@
-export interface StepFormProcessor {
-  isNextStepAvailable(): boolean;
+export abstract class StepFormProcessor {
+  deps?: Array<typeof StepFormProcessor>;
+  abstract isNextStepAvailable(): boolean;
 }

@@ -10,7 +10,8 @@ import {
 } from "@vkontakte/vkui";
 import { useFormProcessor } from "../../useFormProcessor";
 import { observer } from "mobx-react-lite";
-import { availableYears } from '../../lib/calculator';
+import { availableYears } from "../../lib/calculator";
+import { runInAction } from "mobx";
 
 export const Dates = observer(() => {
   const processor = useFormProcessor("dates");
@@ -30,7 +31,10 @@ export const Dates = observer(() => {
                 label: v.toString(),
                 value: v.toString(),
               }))}
-              defaultValue={new Date().getFullYear().toString()}
+              value={String(processor.year)}
+              onChange={(e) =>
+                runInAction(() => (processor.year = Number(e.target.value)))
+              }
             />
           </FormItem>
         </FormLayoutGroup>
@@ -42,13 +46,18 @@ export const Dates = observer(() => {
               {/* TODO: Mobile */}
               <DateRangeInput
                 value={processor.dateRange}
-                onChange={(range) => (processor.dateRange = range)}
-                shouldDisableDate={(date) => date.getFullYear() !== 2024}
+                onChange={(range) =>
+                  runInAction(() => (processor.dateRange = range))
+                }
+                shouldDisableDate={(date) =>
+                  date.getFullYear() !== processor.year
+                }
               />
             </FormItem>
             <Div>
               <FormStatus header="" mode="default">
-                Даты отпуска попадают на праздничные дни. Они не будут учитываться при расчете.
+                Даты отпуска попадают на праздничные дни. Они не будут
+                учитываться при расчете.
               </FormStatus>
             </Div>
           </>
