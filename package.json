@@ -6,10 +6,12 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "test": "vitest",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@date-fns/utc": "^1.1.1",
     "@types/date-fns": "^2.6.0",
     "@vkontakte/icons": "^2.90.0",
     "@vkontakte/vkui": "^6.0.0-beta.3",
@@ -29,6 +31,7 @@
     "eslint-plugin-react-refresh": "^0.4.5",
     "fast-xml-parser": "^4.3.2",
     "typescript": "^5.2.2",
-    "vite": "^5.0.8"
+    "vite": "^5.0.8",
+    "vitest": "^1.1.3"
   }
 }

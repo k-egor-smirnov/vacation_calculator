@@ -1,9 +1,7 @@
 import {
   DateRangeInput,
-  Div,
   FormItem,
   FormLayoutGroup,
-  FormStatus,
   Group,
   PanelHeader,
   Select,
@@ -54,12 +52,12 @@ export const Dates = observer(() => {
                 }
               />
             </FormItem>
-            <Div>
+            {/* <Div>
               <FormStatus header="" mode="default">
                 Даты отпуска попадают на праздничные дни. Они не будут
                 учитываться при расчете.
               </FormStatus>
-            </Div>
+            </Div> */}
           </>
         )}
       </Group>

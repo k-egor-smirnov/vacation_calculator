@@ -44,6 +44,8 @@ export class FormStore {
           return;
         }
 
+        this.processors.basic.vacationTargetStart = newTargetDateRange[0];
+
         const billingPeriodStartDate = startOfMonth(
           subMonths(newTargetDateRange[0], 12)
         );
@@ -118,7 +120,7 @@ export class FormStore {
 
     const calcResult = calculateVacation(
       baseSalary,
-      new Array(12).fill(baseSalary),
+      this.processors.basic.customSalaries.map((v) => v.value || 0),
       dateRange[0],
       dateRange[1],
       excludedDates

@@ -37,6 +37,7 @@ export const BasicData = observer(() => {
           <FormItem top="Зарплата" bottom="Сумма всех выплат до вычета налогов">
             <Input
               placeholder="65 321 ₽"
+              inputMode="numeric"
               after={<Icon16RoubleOutline />}
               value={processor.baseSalary}
               onChange={(e) => {
@@ -71,7 +72,8 @@ export const BasicData = observer(() => {
                 month: "numeric",
                 year: "numeric",
               }).format(billingPeriodEndDate)}
-            </b> включительно.
+            </b>{" "}
+            включительно.
           </Subhead>
         </Div>
         <FormLayoutGroup segmented={true}>
@@ -116,42 +118,29 @@ export const BasicData = observer(() => {
         description="Финальная сумма, включая отпуска, больничные и пособия. Указывайте сумму ДО уплаты НДФЛ"
       >
         <FormLayoutGroup>
-          {new Array(12).fill(undefined).map((_, index) => {
-            if (!formStore.vacationTargetStart) {
-              return;
-            }
-
-            const date = subMonths(formStore.vacationTargetStart, index + 1);
+          {processor.customSalaries.map((customSalary) => {
             return (
               <FormItem
                 top={
                   <>
                     {new Intl.DateTimeFormat("ru", { month: "long" }).format(
-                      date
+                      customSalary.date
                     )}{" "}
-                    {date.getFullYear()}
+                    {customSalary.date.getFullYear()}
                   </>
                 }
               >
-                <Input disabled value={processor.baseSalary}></Input>
+                <Input
+                  value={customSalary.value}
+                  inputMode="numeric"
+                  onChange={(e) =>
+                    (customSalary.value = parseInt(e.target.value, 10))
+                  }
+                ></Input>
               </FormItem>
             );
           })}
         </FormLayoutGroup>
-        {/* <FormItem>
-          <Input align="right" before="Январь" />
-          <Input before="Февраль" />
-          <Input before="Март" />
-          <Input before="Апрель" />
-          <Input before="Май" />
-          <Input before="Июнь" />
-          <Input before="Июль" />
-          <Input before="Август" />
-          <Input before="Сентябрь" />
-          <Input before="Октябрь" />
-          <Input before="Ноябрь" />
-          <Input before="Декабрь" />
-        </FormItem> */}
       </Group>
     </>
   );

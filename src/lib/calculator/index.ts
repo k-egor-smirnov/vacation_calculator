@@ -1,22 +1,23 @@
 import {
   getDaysInMonth,
   subMonths,
-  differenceInDays,
   addMonths,
   eachDayOfInterval,
   subMinutes,
   isSameMonth,
   startOfMonth,
   endOfMonth,
+  differenceInCalendarDays,
 } from "date-fns";
 import { years } from "../../../calendar/result.json"; // https://xmlcalendar.ru/data/ru/2024/calendar.json
+import { UTCDate } from '@date-fns/utc';
 
 export const availableYears = Object.keys(years);
 
 const basicOffset = new Date().getTimezoneOffset();
 
 function createDate(str: string | Date) {
-  const date = new Date(str);
+  const date = new UTCDate(str);
   return subMinutes(date, basicOffset);
 }
 
@@ -42,7 +43,6 @@ function getWorkingDatesOfMonth(date: Date) {
     start: startOfMonth(date),
     end: endOfMonth(date),
   })
-    .map((v) => createDate(v))
     .filter((v) => {
       const specialDayData = specialDays[v.getDate()];
       if (specialDayData) {
@@ -105,7 +105,7 @@ function calcVacationSalary(
     return specialDaysThisMonth[v.getDate()]?.type === "1";
   });
 
-  const vacationDays = differenceInDays(endDate, startDate) + 1 - holidays.length;
+  const vacationDays = differenceInCalendarDays(endDate, startDate) + 1 - holidays.length;
 
   const avgDailySalary = calcAvgDailySalary(
     billingPeriodSalariesSum,
@@ -124,7 +124,7 @@ function calcWorkSalary(salary: number, startDate: Date, endDate: Date) {
   const vacationDates = eachDayOfInterval({
     start: startDate,
     end: endDate,
-  }).map((v) => createDate(v));
+  });
 
   for (let i = 0; i <= endDate.getMonth() - startDate.getMonth(); i++) {
     const date = addMonths(startDate, i);
@@ -141,7 +141,7 @@ function calcWorkSalary(salary: number, startDate: Date, endDate: Date) {
     );
 
     // todo holidays
-    const avgDaySalary = salary / getWorkingDatesOfMonth(date).length;
+    const avgDaySalary = salary / commonWorkingDays.length;
 
     const expectedMonthSalary = workingDays.length * avgDaySalary;
     nextSalaries[+date] = expectedMonthSalary;
@@ -158,8 +158,11 @@ export function calculateVacation(
   endDate: Date,
   excludedDates: Date[]
 ) {
+  startDate = createDate(startDate);
+  endDate = createDate(endDate);
+
   if (startDate > endDate) {
-    throw new Error("End date is less than end date");
+    throw new Error("End date is less than start date");
   } else if (startDate.getFullYear() !== endDate.getFullYear()) {
     throw new Error("Years must me same");
   }

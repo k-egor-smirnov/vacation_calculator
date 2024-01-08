@@ -12,6 +12,7 @@ import {
 import { observer } from "mobx-react-lite";
 import { formStore } from "../../FormStore";
 import { addMonths } from "date-fns";
+import { UTCDate } from '@date-fns/utc';
 
 export const Result = observer(() => {
   const result = formStore.result;
@@ -65,7 +66,7 @@ export const Result = observer(() => {
       </Group>
       <Group header={<Header>Следующие выплаты</Header>}>
         {Object.keys(result.nextSalaries).map((ts) => {
-          const date = new Date(+ts);
+          const date = new UTCDate(+ts);
           const salary = result.nextSalaries[+ts];
 
           return (
