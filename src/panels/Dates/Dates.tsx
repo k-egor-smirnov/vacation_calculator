@@ -1,5 +1,4 @@
 import {
-  DateRangeInput,
   FormItem,
   FormLayoutGroup,
   Group,
@@ -10,6 +9,7 @@ import { useFormProcessor } from "../../useFormProcessor";
 import { observer } from "mobx-react-lite";
 import { availableYears } from "../../lib/calculator";
 import { runInAction } from "mobx";
+import { DateRangeInput } from "../../components/DateRangeInput/DateRangeInput";
 
 export const Dates = observer(() => {
   const processor = useFormProcessor("dates");

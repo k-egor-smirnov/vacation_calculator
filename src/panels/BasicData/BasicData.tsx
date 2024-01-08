@@ -1,7 +1,6 @@
 import { Icon16RoubleOutline, Icon20DeleteOutline } from "@vkontakte/icons";
 import {
   CellButton,
-  DateRangeInput,
   Div,
   FormItem,
   FormLayoutGroup,
@@ -17,6 +16,7 @@ import { observer } from "mobx-react-lite";
 import { runInAction } from "mobx";
 import { formStore } from "../../FormStore";
 import { endOfMonth, startOfMonth, subMonths } from "date-fns";
+import { DateRangeInput } from "../../components/DateRangeInput/DateRangeInput";
 
 export const BasicData = observer(() => {
   const processor = useFormProcessor("basic");

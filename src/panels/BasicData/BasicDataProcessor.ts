@@ -9,19 +9,18 @@ import {
 import { UTCDate } from "@date-fns/utc";
 import { makeAutoObservable } from "mobx";
 
+const defaultSalaries = new Array(12).fill(undefined).map((_, index, arr) => ({
+  date: startOfMonth(subMonths(new UTCDate(), arr.length - index)),
+  value: undefined,
+}));
+
 export class BasicDataProcessor implements StepFormProcessor {
   constructor() {
     makeAutoObservable(this);
   }
 
-  customSalaries: Array<{ date: Date; value: number | undefined }> = new Array(
-    12
-  )
-    .fill(undefined)
-    .map((_, index, arr) => ({
-      date: startOfMonth(subMonths(new UTCDate(), arr.length - index)),
-      value: undefined,
-    }));
+  customSalaries: Array<{ date: Date; value: number | undefined }> =
+    defaultSalaries;
 
   excludedRanges: Array<DateRangeType | undefined> = [];
 
@@ -56,6 +55,11 @@ export class BasicDataProcessor implements StepFormProcessor {
       billingPeriodEndDate,
       subMonths(this._vacationTargetStart, 1)
     );
+
+    if (Math.abs(difference) > 12) {
+      this.customSalaries = defaultSalaries;
+      return;
+    }
 
     if (difference > 0) {
       this.customSalaries.splice(0, difference);
