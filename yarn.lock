@@ -208,7 +208,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^18.2.43":
+"@types/react@*", "@types/react@^17.0.0 || ^18.0.0", "@types/react@^18.2.43":
   "integrity" "sha512-nNCvVBcZlvX4NU1nRRNV/mFl1nNRuTuslAJglQsq+8ldXe5Xv0Wd2f7WTE3jOxhLH2BFfiZGC6GCp+kHQbgG+w=="
   "resolved" "https://registry.npmjs.org/@types/react/-/react-18.2.46.tgz"
   "version" "18.2.46"
@@ -382,6 +382,16 @@
   "version" "2.90.0"
   dependencies:
     "@vkontakte/icons-sprite" "2.0.0"
+
+"@vkontakte/vk-bridge-react@^1.0.1":
+  "integrity" "sha512-+r0zxh1UUDcok2VtsPDc6jWHQezfsqHK3M9LAnTpKI9XyZlrgfEQA8cYsc0F8urOXUJ3FhEHXuJQjQGgK0Z5PA=="
+  "resolved" "https://registry.npmjs.org/@vkontakte/vk-bridge-react/-/vk-bridge-react-1.0.1.tgz"
+  "version" "1.0.1"
+
+"@vkontakte/vk-bridge@^2.11.2", "@vkontakte/vk-bridge@^2.12.2":
+  "integrity" "sha512-3LK9qZg/khrbFKo9PuOs9f0WL4O7Nx8AAtvT/yiASrGdoo2cZWpshWN905SGN+Oi1PVlaD5XpqiF8SGn5/eZCQ=="
+  "resolved" "https://registry.npmjs.org/@vkontakte/vk-bridge/-/vk-bridge-2.12.2.tgz"
+  "version" "2.12.2"
 
 "@vkontakte/vkjs@^1.1.1":
   "integrity" "sha512-+tOfx6M+tsHweG+2xEHUUA5SAWbA2dYYX8Owa6uQ8OpwDq6LCgGikCas2SWDA61N5IXerfbfhDaKwFTuoG2vMg=="
@@ -1335,7 +1345,7 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-18.2.0.tgz"
   "version" "18.2.0"
 
-"react@^16.8.0 || ^17 || ^18", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.9.34 || ^17 || ^18", "react@^18.2.0", "react@>=16.8.0":
+"react@^16.8.0 || ^17 || ^18", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.9.34 || ^17 || ^18", "react@^17.0.0 || ^18.1.0", "react@^18.2.0", "react@>=16.8.0":
   "integrity" "sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ=="
   "resolved" "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   "version" "18.2.0"

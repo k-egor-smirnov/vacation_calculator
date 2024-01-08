@@ -32,26 +32,6 @@ export const BasicData = observer(() => {
   return (
     <>
       <PanelHeader>Базовая информация</PanelHeader>
-      <Group>
-        <FormLayoutGroup>
-          <FormItem top="Зарплата" bottom="Сумма всех выплат до вычета налогов">
-            <Input
-              placeholder="65 321 ₽"
-              inputMode="numeric"
-              after={<Icon16RoubleOutline />}
-              value={processor.baseSalary}
-              onChange={(e) => {
-                e.preventDefault();
-                runInAction(() => {
-                  processor.baseSalary = e.target.value
-                    ? parseInt(e.target.value, 10) || processor.baseSalary
-                    : undefined;
-                });
-              }}
-            />
-          </FormItem>
-        </FormLayoutGroup>
-      </Group>
       <Group header={<Header>Периоды отсутствия</Header>}>
         <Div style={{ paddingTop: 0, paddingBottom: 4 }}>
           <Subhead style={{ color: "var(--vkui--color_text_secondary)" }}>

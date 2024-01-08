@@ -54,19 +54,27 @@ export class FormStore {
           subMonths(newTargetDateRange[0], 1)
         );
 
-        this.processors.basic.excludedRanges = this.processors.basic.excludedRanges.filter((dateRange) => {
-          // Незаполнененные данные оставляем
-          if (!dateRange || !dateRange[0] || !dateRange[1]) {
-            return true;
-          }
+        this.processors.basic.excludedRanges =
+          this.processors.basic.excludedRanges.filter((dateRange) => {
+            // Незаполнененные данные оставляем
+            if (!dateRange || !dateRange[0] || !dateRange[1]) {
+              return true;
+            }
 
-          return (
-            dateRange[0] >= billingPeriodStartDate &&
-            dateRange[0] <= billingPeriodEndDate &&
-            dateRange[1] >= billingPeriodStartDate &&
-            dateRange[1] <= billingPeriodEndDate
-          );
-        });
+            return (
+              dateRange[0] >= billingPeriodStartDate &&
+              dateRange[0] <= billingPeriodEndDate &&
+              dateRange[1] >= billingPeriodStartDate &&
+              dateRange[1] <= billingPeriodEndDate
+            );
+          });
+      }
+    );
+
+    reaction(
+      () => this.processors.dates.baseSalary,
+      (baseSalary) => {
+        this.processors.basic.baseSalary = baseSalary;
       }
     );
   }
