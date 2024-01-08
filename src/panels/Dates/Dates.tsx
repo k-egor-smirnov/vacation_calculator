@@ -1,23 +1,16 @@
 import {
-  Avatar,
-  Banner,
-  Checkbox,
   DateRangeInput,
   Div,
   FormItem,
   FormLayoutGroup,
   FormStatus,
   Group,
-  Input,
   PanelHeader,
-  SegmentedControl,
   Select,
 } from "@vkontakte/vkui";
 import { useFormProcessor } from "../../useFormProcessor";
 import { observer } from "mobx-react-lite";
 import { availableYears } from '../../lib/calculator';
-
-const warningGradient = "linear-gradient(90deg, #ffb73d 0%, #ffa000 100%)";
 
 export const Dates = observer(() => {
   const processor = useFormProcessor("dates");
