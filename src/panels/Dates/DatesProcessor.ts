@@ -10,16 +10,13 @@ export class DatesProcessor implements StepFormProcessor {
 
   constructor() {
     makeAutoObservable(this);
-    // invalidation
-    reaction(
-      () => this.year,
-      () => {
-        this.dateRange = undefined;
-      }
-    );
   }
 
   public isNextStepAvailable(): boolean {
+    if (!this.baseSalary) {
+      return false;
+    }
+
     if (this.mode === "duration") {
       return false; //temp;
     }

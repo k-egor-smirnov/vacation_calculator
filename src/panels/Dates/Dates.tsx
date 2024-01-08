@@ -69,9 +69,6 @@ export const Dates = observer(() => {
                 onChange={(range) =>
                   runInAction(() => (processor.dateRange = range))
                 }
-                shouldDisableDate={(date) =>
-                  date.getFullYear() !== processor.year
-                }
               />
             </FormItem>
             {/* <Div>

@@ -1,4 +1,4 @@
-import { Icon16RoubleOutline, Icon20DeleteOutline } from "@vkontakte/icons";
+import { Icon20DeleteOutline } from "@vkontakte/icons";
 import {
   CellButton,
   Div,
