@@ -6,6 +6,7 @@ import {
   Div,
   FormItem,
   FormLayoutGroup,
+  FormStatus,
   Group,
   Input,
   PanelHeader,
@@ -14,6 +15,7 @@ import {
 } from "@vkontakte/vkui";
 import { useFormProcessor } from "../../useFormProcessor";
 import { observer } from "mobx-react-lite";
+import { availableYears } from '../../lib/calculator';
 
 const warningGradient = "linear-gradient(90deg, #ffb73d 0%, #ffa000 100%)";
 
@@ -31,7 +33,7 @@ export const Dates = observer(() => {
             bottom="От выбранного года зависит количество праздников и выходных в соответствии с производственным календарем."
           >
             <Select
-              options={[2023, 2024].map((v) => ({
+              options={availableYears.map((v) => ({
                 label: v.toString(),
                 value: v.toString(),
               }))}
@@ -41,20 +43,23 @@ export const Dates = observer(() => {
         </FormLayoutGroup>
       </Group>
       <Group>
-        <FormLayoutGroup>
-          {mode === "dates" && (
-            <>
-              <FormItem top="Желаемые даты отпуска">
-                {/* TODO: Mobile */}
-                <DateRangeInput
-                  value={processor.dateRange}
-                  onChange={(range) => (processor.dateRange = range)}
-                  shouldDisableDate={(date) => date.getFullYear() !== 2024}
-                />
-              </FormItem>
-            </>
-          )}
-        </FormLayoutGroup>
+        {mode === "dates" && (
+          <>
+            <FormItem top="Желаемые даты отпуска">
+              {/* TODO: Mobile */}
+              <DateRangeInput
+                value={processor.dateRange}
+                onChange={(range) => (processor.dateRange = range)}
+                shouldDisableDate={(date) => date.getFullYear() !== 2024}
+              />
+            </FormItem>
+            <Div>
+              <FormStatus header="" mode="default">
+                Даты отпуска попадают на праздничные дни. Они не будут учитываться при расчете.
+              </FormStatus>
+            </Div>
+          </>
+        )}
       </Group>
     </>
   );

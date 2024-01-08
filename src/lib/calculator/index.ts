@@ -8,8 +8,11 @@ import {
   isSameMonth,
   startOfMonth,
   endOfMonth,
+  eachMonthOfInterval,
 } from "date-fns";
-import { months } from "./calendar.json"; // https://xmlcalendar.ru/data/ru/2024/calendar.json
+import { years } from "../../../calendar/result.json"; // https://xmlcalendar.ru/data/ru/2024/calendar.json
+
+export const availableYears = Object.keys(years);
 
 const basicOffset = new Date().getTimezoneOffset();
 
@@ -18,17 +21,39 @@ function createDate(str: string | Date) {
   return subMinutes(date, basicOffset);
 }
 
+function getSpecialDays(year: number, monthIndex: number) {
+  // @ts-expect-error  No index signature with a parameter of type 'string' was found on type
+  const yearValue = years[year.toString()];
+  return Object.keys(yearValue.days).reduce<Record<string, any>>(
+    (acc, date) => {
+      if (date.startsWith(String(monthIndex + 1).padStart(2, "0"))) {
+        acc[parseInt(date.split(".")[1], 10)] = yearValue.days[date];
+      }
+
+      return acc;
+    },
+    {}
+  );
+}
+
 function getWorkingDatesOfMonth(date: Date) {
-  const excludedDays = months[date.getMonth()].days
-    .split(",")
-    .map((v) => parseInt(v, 10));
+  const specialDays = getSpecialDays(date.getFullYear(), date.getMonth());
 
   const workingDays = eachDayOfInterval({
     start: startOfMonth(date),
     end: endOfMonth(date),
   })
     .map((v) => createDate(v))
-    .filter((v) => !excludedDays.includes(v.getDate()));
+    .filter((v) => {
+      const specialDayData = specialDays[v.getDate()];
+      if (specialDayData) {
+        // Особый рабочий день, выпадающий на выходные
+        return specialDayData.type === "3";
+      } else {
+        // Выходной
+        return v.getDay() !== 0 && v.getDay() !== 6;
+      }
+    });
 
   return workingDays;
 }
@@ -72,7 +97,16 @@ function calcVacationSalary(
   const billingPeriodSalariesSum = billingPeriodSalaries.reduce(
     (acc, v) => acc + v
   );
-  const vacationDays = differenceInDays(endDate, startDate) + 1;
+  const holidays = eachDayOfInterval({
+    start: startDate,
+    end: endDate,
+  }).filter((v) => {
+    // TODO Оптимизировать
+    const specialDaysThisMonth = getSpecialDays(v.getFullYear(), v.getMonth());
+    return specialDaysThisMonth[v.getDate()]?.type === "1";
+  });
+
+  const vacationDays = differenceInDays(endDate, startDate) + 1 - holidays.length;
 
   const avgDailySalary = calcAvgDailySalary(
     billingPeriodSalariesSum,
@@ -105,7 +139,6 @@ function calcWorkSalary(salary: number, startDate: Date, endDate: Date) {
     const workingDays = commonWorkingDays.filter(
       (v) => !monthVacationDays.includes(v)
     );
-    console.log(commonWorkingDays.length, workingDays.length);
 
     // todo holidays
     const avgDaySalary = salary / getWorkingDatesOfMonth(date).length;
@@ -137,14 +170,12 @@ export function calculateVacation(
     excludedDates
   );
 
-  const standardSalaries = {};
   const { nextSalaries } = calcWorkSalary(salary, startDate, endDate);
 
   const nextSalariesSum = Object.values(nextSalaries).reduce(
     (acc, v) => (acc += v)
   );
 
-  // const nextSalaries = startDate
   console.log(vacationSalary, nextSalaries, vacationSalary + nextSalariesSum);
 
   return {

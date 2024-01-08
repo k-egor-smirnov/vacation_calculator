@@ -105,7 +105,6 @@ class FormStore {
   }
 
   prevStep() {
-    console.log(this.history[this.history.length - 1], this.history.length);
     this.history.pop();
     this.step = this.history[this.history.length - 1] || "intro";
   }

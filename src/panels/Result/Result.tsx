@@ -3,6 +3,8 @@ import {
   Card,
   CardGrid,
   Div,
+  Footer,
+  Footnote,
   Group,
   Header,
   Headline,
@@ -15,6 +17,7 @@ import {
 } from "@vkontakte/vkui";
 import { observer } from "mobx-react-lite";
 import { formStore } from "../../FormStore";
+import { addMonths } from "date-fns";
 
 export const Result = observer(() => {
   const result = formStore.result;
@@ -55,7 +58,7 @@ export const Result = observer(() => {
           </span>
           <Text>
             Вы получите дополнительно 13 412₽ к вашей зарплате.{" "}
-            <Link href="#">Узнайте, как происходили вычисления.</Link>
+            <Link href="#">Узнайте, как происходили вычисления. </Link>
           </Text>
         </Div>
       </Group>
@@ -82,7 +85,23 @@ export const Result = observer(() => {
             </SimpleCell>
           );
         })}
+        <SimpleCell>
+          <InfoRow
+            header={`${new Intl.DateTimeFormat("ru", {
+              month: "long",
+              year: "numeric",
+            }).format(
+              addMonths(+(Object.keys(result.nextSalaries).pop() ?? "") ?? 0, 1)
+            )} и далее`}
+          >
+            Без изменений
+          </InfoRow>
+        </SimpleCell>
       </Group>
+      <Footer>
+        Расчет суммы отпускных и последующих начислений заработной платы
+        примерный и может не совпадать с реальным.
+      </Footer>
     </>
   );
 });
