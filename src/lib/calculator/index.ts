@@ -10,7 +10,7 @@ import {
   differenceInCalendarDays,
 } from "date-fns";
 import { years } from "../../../calendar/result.json"; // https://xmlcalendar.ru/data/ru/2024/calendar.json
-import { UTCDate } from '@date-fns/utc';
+import { UTCDate } from "@date-fns/utc";
 
 export const availableYears = Object.keys(years);
 
@@ -42,17 +42,16 @@ function getWorkingDatesOfMonth(date: Date) {
   const workingDays = eachDayOfInterval({
     start: startOfMonth(date),
     end: endOfMonth(date),
-  })
-    .filter((v) => {
-      const specialDayData = specialDays[v.getDate()];
-      if (specialDayData) {
-        // Особый рабочий день, выпадающий на выходные
-        return specialDayData.type === "3";
-      } else {
-        // Выходной
-        return v.getDay() !== 0 && v.getDay() !== 6;
-      }
-    });
+  }).filter((v) => {
+    const specialDayData = specialDays[v.getDate()];
+    if (specialDayData) {
+      // Особый рабочий день, выпадающий на выходные
+      return specialDayData.type === "3";
+    } else {
+      // Выходной
+      return v.getDay() !== 0 && v.getDay() !== 6;
+    }
+  });
 
   return workingDays;
 }
@@ -105,7 +104,8 @@ function calcVacationSalary(
     return specialDaysThisMonth[v.getDate()]?.type === "1";
   });
 
-  const vacationDays = differenceInCalendarDays(endDate, startDate) + 1 - holidays.length;
+  const vacationDays =
+    differenceInCalendarDays(endDate, startDate) + 1 - holidays.length;
 
   const avgDailySalary = calcAvgDailySalary(
     billingPeriodSalariesSum,
@@ -128,6 +128,7 @@ function calcWorkSalary(salary: number, startDate: Date, endDate: Date) {
 
   for (let i = 0; i <= endDate.getMonth() - startDate.getMonth(); i++) {
     const date = addMonths(startDate, i);
+    console.log(date);
 
     const monthVacationDays = vacationDates
       .filter((vacationDate) => isSameMonth(date, vacationDate))
@@ -163,8 +164,6 @@ export function calculateVacation(
 
   if (startDate > endDate) {
     throw new Error("End date is less than start date");
-  } else if (startDate.getFullYear() !== endDate.getFullYear()) {
-    throw new Error("Years must me same");
   }
 
   const vacationSalary = calcVacationSalary(
@@ -174,14 +173,20 @@ export function calculateVacation(
     excludedDates
   );
 
-  const { standardSalaries, nextSalaries } = calcWorkSalary(salary, startDate, endDate);
+  const { standardSalaries, nextSalaries } = calcWorkSalary(
+    salary,
+    startDate,
+    endDate
+  );
 
   const standardSalariesSum = Object.values(standardSalaries).reduce(
-    (acc, v) => (acc += v)
+    (acc, v) => (acc += v),
+    0
   );
 
   const nextSalariesSum = Object.values(nextSalaries).reduce(
-    (acc, v) => (acc += v)
+    (acc, v) => (acc += v),
+    0
   );
 
   const totalSalary = nextSalariesSum + vacationSalary;
