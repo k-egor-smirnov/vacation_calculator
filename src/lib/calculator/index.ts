@@ -120,6 +120,7 @@ function calcVacationSalary(
 
 function calcWorkSalary(salary: number, startDate: Date, endDate: Date) {
   const nextSalaries: Record<number, number> = {};
+  const standardSalaries: Record<number, number> = {};
 
   const vacationDates = eachDayOfInterval({
     start: startDate,
@@ -145,9 +146,10 @@ function calcWorkSalary(salary: number, startDate: Date, endDate: Date) {
 
     const expectedMonthSalary = workingDays.length * avgDaySalary;
     nextSalaries[+date] = expectedMonthSalary;
+    standardSalaries[+date] = commonWorkingDays.length * avgDaySalary;
   }
 
-  return { nextSalaries };
+  return { nextSalaries, standardSalaries };
 }
 
 export function calculateVacation(
@@ -170,16 +172,20 @@ export function calculateVacation(
     excludedDates
   );
 
-  const { nextSalaries } = calcWorkSalary(salary, startDate, endDate);
+  const { standardSalaries, nextSalaries } = calcWorkSalary(salary, startDate, endDate);
+
+  const standardSalariesSum = Object.values(standardSalaries).reduce(
+    (acc, v) => (acc += v)
+  );
 
   const nextSalariesSum = Object.values(nextSalaries).reduce(
     (acc, v) => (acc += v)
   );
 
-  console.log(vacationSalary, nextSalaries, vacationSalary + nextSalariesSum);
+  const totalSalary = nextSalariesSum + vacationSalary;
 
   return {
-    daysSpent: 1,
+    diff: totalSalary - standardSalariesSum,
     vacationSalary,
     nextSalaries,
   };

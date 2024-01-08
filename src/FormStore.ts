@@ -62,6 +62,7 @@ class FormStore {
   get result(): {
     vacationSalary: number;
     nextSalaries: Record<number, number>;
+    diff: number,
   } | null {
     const { dateRange } = this.processors.dates;
     const { baseSalary, excludedRanges } = this.processors.basic;
@@ -88,6 +89,7 @@ class FormStore {
     );
 
     return {
+      diff: calcResult.diff,
       vacationSalary: parseFloat(
         Math.floor(calcResult.vacationSalary).toFixed(2)
       ),

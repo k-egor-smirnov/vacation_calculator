@@ -57,7 +57,14 @@ export const Result = observer(() => {
             }).format(result.vacationSalary)}
           </span>
           <Text>
-            Вы получите дополнительно 13 412₽ к вашей зарплате.{" "}
+            В расчетных периодах отпуска вы в сумме получите дополнительно{" "}
+            {new Intl.NumberFormat("ru-RU", {
+              style: "currency",
+              currency: "RUB",
+              compactDisplay: "short",
+              maximumFractionDigits: 0,
+            }).format(result.diff)}{" "}
+            к вашей зарплате.{" "}
             <Link href="#">Узнайте, как происходили вычисления. </Link>
           </Text>
         </Div>
