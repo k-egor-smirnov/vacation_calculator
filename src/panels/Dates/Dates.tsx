@@ -41,25 +41,6 @@ export const Dates = observer(() => {
         </FormLayoutGroup>
       </Group>
       <Group>
-        <FormLayoutGroup>
-          <FormItem
-            top="Год отпуска"
-            bottom="От выбранного года зависит количество праздников и выходных в соответствии с производственным календарем."
-          >
-            <Select
-              options={availableYears.map((v) => ({
-                label: v.toString(),
-                value: v.toString(),
-              }))}
-              value={String(processor.year)}
-              onChange={(e) =>
-                runInAction(() => (processor.year = Number(e.target.value)))
-              }
-            />
-          </FormItem>
-        </FormLayoutGroup>
-      </Group>
-      <Group>
         {mode === "dates" && (
           <>
             <FormItem top="Желаемые даты отпуска">
