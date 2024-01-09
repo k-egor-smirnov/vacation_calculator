@@ -12,8 +12,19 @@ import { observer } from "mobx-react-lite";
 import { formStore } from "../../FormStore";
 import { addMonths } from "date-fns";
 import { UTCDate } from '@date-fns/utc';
+import { useEffect } from 'react';
+import bridge from '@vkontakte/vk-bridge';
+import { VK_RETARGETING_PIXEL_ID } from '../../consants';
 
 export const Result = observer(() => {
+  useEffect(() => {
+    bridge.send("VKWebAppRetargetingPixel", {
+      pixel_code: VK_RETARGETING_PIXEL_ID,
+      event: "conversion",
+      target_group_id: 58125182,
+    });
+  }, []);
+
   const result = formStore.result;
   if (!result) {
     return <PanelHeader>Ошибка</PanelHeader>;

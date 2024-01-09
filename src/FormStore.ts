@@ -9,6 +9,8 @@ import {
   startOfMonth,
   subMonths,
 } from "date-fns";
+import bridge from "@vkontakte/vk-bridge";
+import { VK_RETARGETING_PIXEL_ID } from "./consants";
 
 export type Step = "intro" | "dates" | "basic" | "result";
 
@@ -146,6 +148,12 @@ export class FormStore {
   nextStep() {
     if (!this.isNextStepAvailable) {
       return;
+    }
+    if (this.step === "intro") {
+      bridge.send("VKWebAppRetargetingPixel", {
+        pixel_code: VK_RETARGETING_PIXEL_ID,
+        event: "click",
+      });
     }
 
     this.step = this.getNextStep();
