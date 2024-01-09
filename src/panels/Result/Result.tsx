@@ -23,6 +23,8 @@ export const Result = observer(() => {
       event: "conversion",
       target_group_id: 58125182,
     });
+    // @ts-expect-error VK pixel
+    window._tmr.push({ type: 'reachGoal', id: 3470645, goal: 'result'});
   }, []);
 
   const result = formStore.result;

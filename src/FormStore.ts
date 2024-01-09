@@ -154,6 +154,7 @@ export class FormStore {
         pixel_code: VK_RETARGETING_PIXEL_ID,
         event: "click",
       });
+      _tmr.push({ type: "reachGoal", id: 3470645, goal: "intro" });
     }
 
     this.step = this.getNextStep();
